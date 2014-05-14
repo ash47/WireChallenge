@@ -19,7 +19,7 @@ function freezeEntity(ent)
     local phys = ent:GetPhysicsObject()
 
     if phys and phys:IsValid() then
-        phys:EnableMotion( false )
+        phys:EnableMotion(false)
     end
 end
 
@@ -38,6 +38,9 @@ function GM:PhysgunPickup(ply, ent)
     -- Make sure the game isn't running
     if plyRoom.running then return false end
 
+    -- This ent is no longer wire frozen
+    ent.isWireFrozen = nil
+
     -- Allowed to pickup
     return true
 end
@@ -47,6 +50,14 @@ function GM:PhysgunDrop(ply, ent)
 end
 
 function GM:OnPhysgunReload(ply, ent)
+end
+
+function GM:OnPhysgunFreeze(weapon, phys, ent, ply)
+    -- Enable the wire freeze on it
+    ent.isWireFrozen = true
+
+    -- Disable motion
+    --phys:EnableMotion(false)
 end
 
 --[[
