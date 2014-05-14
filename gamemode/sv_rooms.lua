@@ -174,7 +174,14 @@ function Rooms:LoadRoom(save)
 
         -- Freeze the ent if we're not running
         if not self.running then
+            -- Freeze prop
             freezeEntity(ent)
+
+            -- Disable damage
+            ent:disableDamage()
+        else
+            -- Enable damage
+            ent:enableDamage()
         end
     end
 end
@@ -202,6 +209,9 @@ function cleanup.Add(ply, Type, ent)
 
     -- Freeze it
     freezeEntity(ent)
+
+    -- Stop damage
+    ent:disableDamage()
 
     -- Add it to the list of deletables
     return oldAdd(ply, Type, ent)

@@ -48,3 +48,29 @@ end
 
 function GM:OnPhysgunReload(ply, ent)
 end
+
+--[[
+    Extend entity class to add useful stuff
+]]
+
+local Entity = FindMetaTable("Entity")
+
+-- Spawn the filter
+local filterName = 'WireChallengeDamageFilter'
+hook.Add('InitPostEntity', 'CreateDamagefilter', function()
+    -- Create the damage filter
+    local filter = ents.Create('filter_activator_name')
+    filter:SetKeyValue('targetname', filterName)
+    filter:SetKeyValue('negated', '1')
+    filter:Spawn()
+end)
+
+-- Stops an entity from taking damage
+function Entity:disableDamage()
+    self:Fire('setdamagefilter', filterName, 0)
+end
+
+-- Allows an entity to take damage
+function Entity:enableDamage()
+    self:Fire('setdamagefilter', '', 0)
+end
